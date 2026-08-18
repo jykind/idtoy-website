@@ -173,6 +173,43 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .nav__link--cross:hover { background: var(--sky); filter: brightness(1.04); }
 .nav__cta { padding: 11px 24px; font-size: 14.5px; }
 
+/* ---------- language switcher ---------- */
+.lang {
+  display: inline-flex; align-items: center; gap: 2px;
+  background: var(--white);
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  padding: 3px;
+  z-index: 110;
+}
+.lang__btn {
+  font-family: var(--f-round); font-weight: 600;
+  font-size: 11.5px; letter-spacing: .04em;
+  padding: 6px 11px;
+  border-radius: 999px;
+  color: var(--muted);
+  transition: background .25s ease, color .25s ease;
+}
+.lang__btn:hover { color: var(--ink); }
+.lang__btn.is-on { background: var(--ink); color: var(--cream); }
+@media (max-width: 920px) {
+  .lang { position: relative; z-index: 110; }
+}
+
+/* Thai glyph support — Jua/Fredoka have no Thai, fall back to Noto Sans Thai */
+html[lang="th"] body,
+html[lang="th"] .heading, html[lang="th"] .hero__title,
+html[lang="th"] .page-head__title, html[lang="th"] .next-cta__title,
+html[lang="th"] .morph-hero__title, html[lang="th"] .morph-hero__heading,
+html[lang="th"] .friend__name, html[lang="th"] .step__title,
+html[lang="th"] .service__title, html[lang="th"] .form__title,
+html[lang="th"] .form-done__title, html[lang="th"] .band__quote p,
+html[lang="th"] .brand__quote {
+  font-family: "Noto Sans Thai", "Pretendard Variable", sans-serif;
+}
+html[lang="th"] .heading, html[lang="th"] .hero__title,
+html[lang="th"] .page-head__title { font-weight: 700; line-height: 1.45; }
+
 .nav-toggle { display: none; width: 46px; height: 46px; position: relative; z-index: 110; background: var(--white); border: 1.5px solid var(--line); border-radius: 50%; }
 .nav-toggle span {
   position: absolute; left: 13px; right: 13px; height: 2px;
@@ -257,7 +294,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .hero__title {
   font-family: var(--f-display);
   font-weight: 400;
-  font-size: clamp(2.5rem, 6.6vw, 5rem);
+  font-size: min(clamp(2.5rem, 6.6vw, 5rem), 9vh);
   line-height: 1.22;
   letter-spacing: 0;
   margin-bottom: 24px;
@@ -281,9 +318,19 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .hero__badge {
   position: absolute; z-index: 3;
   right: clamp(20px, 6vw, 90px);
-  top: clamp(96px, 16vh, 170px);
+  top: clamp(150px, 26vh, 280px);
   width: clamp(96px, 11vw, 150px); height: clamp(96px, 11vw, 150px);
   pointer-events: none;
+}
+/* short viewports: content rises toward the top — clear the decorations out of its way */
+@media (max-height: 820px) {
+  .hero__meta { display: none; }
+  .hero__badge { top: calc(var(--header-h) + 18px); }
+}
+@media (max-height: 680px) {
+  .hero__badge { display: none; }
+  .hero__eyebrow { margin-bottom: 16px; }
+  .hero__lead { margin-bottom: 24px; }
 }
 .hero__badge svg { width: 100%; height: 100%; overflow: visible; }
 .hero__badge .badge-spin { animation: badgeSpin 22s linear infinite; transform-origin: 60px 60px; }

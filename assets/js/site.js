@@ -7,6 +7,49 @@
 
   var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---------- language (set by i18n.js on previous load; read from storage) ---------- */
+  var LANG = localStorage.getItem("idtoy-lang") || "ko";
+  if (LANG !== "en" && LANG !== "th") LANG = "ko";
+  var MSG = {
+    ko: {
+      empty: "이름을 지어주세요",
+      reqErr: "필수 항목을 확인해 주세요.",
+      reqAgreeErr: "필수 항목과 개인정보 동의를 확인해 주세요.",
+      rsvThanks: function (g) { return g + "님, 소중한 예약 감사합니다. "; },
+      rsvUndecided: "어떤 친구가 좋을지 함께 고민해 드릴게요. ",
+      rsvNamed: function (n, f) { return "‘" + n + "’(이)라는 이름의 " + f + " 친구를 정성껏 지어 보내드릴게요. "; },
+      rsvPlain: function (f) { return f + " 친구를 정성껏 지어 보내드릴게요. "; },
+      rsvTail: "하루 안에 제작 일정과 입금 안내를 문자로 드리겠습니다.",
+      qThanks: function (c, m) { return c + " " + m + "님, 문의 감사합니다. 영업일 기준 24시간 안에 한국어 담당자가 회신드리겠습니다. 시안이나 참고 자료가 있다면 회신 메일에 첨부해 주세요."; }
+    },
+    en: {
+      empty: "Give them a name",
+      reqErr: "Please check the required fields.",
+      reqAgreeErr: "Please check the required fields and the consent box.",
+      rsvThanks: function (g) { return g + ", thank you for your reservation. "; },
+      rsvUndecided: "We'll help you find the right friend together. ",
+      rsvNamed: function (n, f) { return "We'll lovingly craft your " + f + " named ‘" + n + "’. "; },
+      rsvPlain: function (f) { return "We'll lovingly craft your " + f + ". "; },
+      rsvTail: "We'll text the crafting schedule and payment details within a day.",
+      qThanks: function (c, m) { return "Thank you, " + m + " of " + c + ". A manager will reply within 24 business hours. If you have sketches or references, attach them to our reply email."; }
+    },
+    th: {
+      empty: "ตั้งชื่อให้หน่อยนะ",
+      reqErr: "กรุณาตรวจสอบช่องที่จำเป็น",
+      reqAgreeErr: "กรุณาตรวจสอบช่องที่จำเป็นและช่องยินยอม",
+      rsvThanks: function (g) { return "คุณ" + g + " ขอบคุณสำหรับการจองค่ะ "; },
+      rsvUndecided: "เราจะช่วยเลือกเพื่อนที่เหมาะที่สุดไปด้วยกันนะคะ ",
+      rsvNamed: function (n, f) { return "เราจะตั้งใจผลิต" + f + "ชื่อ ‘" + n + "’ ให้อย่างดีค่ะ "; },
+      rsvPlain: function (f) { return "เราจะตั้งใจผลิต" + f + "ให้อย่างดีค่ะ "; },
+      rsvTail: "จะส่งตารางผลิตและวิธีชำระเงินให้ภายในหนึ่งวันค่ะ",
+      qThanks: function (c, m) { return "ขอบคุณค่ะ คุณ" + m + " จาก " + c + " ผู้ดูแลจะตอบกลับภายใน 24 ชั่วโมงทำการ ถ้ามีแบบหรือภาพอ้างอิง แนบมากับอีเมลตอบกลับได้เลยค่ะ"; }
+    }
+  }[LANG];
+  function trFriend(f) {
+    var w = window.IDTOY_I18N;
+    return w && w.t ? w.t(f) : f;
+  }
+
   /* ---------- header scroll state ---------- */
   var header = document.getElementById("header");
   if (header) {
@@ -84,7 +127,7 @@
   var tagName = document.getElementById("nametagName");
   var syncTag = null;
   if (nameInput && tagName) {
-    var EMPTY_TEXT = "이름을 지어주세요";
+    var EMPTY_TEXT = MSG.empty;
     syncTag = function () {
       var v = nameInput.value.trim();
       tagName.textContent = v || EMPTY_TEXT;
@@ -138,15 +181,15 @@
       var friend = friendSelect.value;
       var toyName = nameInput ? nameInput.value.trim() : "";
       var guardian = document.getElementById("fGuardian").value.trim();
-      var line = guardian + "님, 소중한 예약 감사합니다. ";
+      var line = MSG.rsvThanks(guardian);
       if (friend === "아직 고민 중이에요") {
-        line += "어떤 친구가 좋을지 함께 고민해 드릴게요. ";
+        line += MSG.rsvUndecided;
       } else if (toyName) {
-        line += "‘" + toyName + "’(이)라는 이름의 " + friend + " 친구를 정성껏 지어 보내드릴게요. ";
+        line += MSG.rsvNamed(toyName, trFriend(friend));
       } else {
-        line += friend + " 친구를 정성껏 지어 보내드릴게요. ";
+        line += MSG.rsvPlain(trFriend(friend));
       }
-      line += "하루 안에 제작 일정과 입금 안내를 문자로 드리겠습니다.";
+      line += MSG.rsvTail;
       rDoneBody.textContent = line;
 
       reserveForm.hidden = true;
@@ -206,18 +249,13 @@
 
       qError.hidden = valid;
       if (!valid) {
-        qError.textContent = agree.checked
-          ? "필수 항목을 확인해 주세요."
-          : "필수 항목과 개인정보 동의를 확인해 주세요.";
+        qError.textContent = agree.checked ? MSG.reqErr : MSG.reqAgreeErr;
         return;
       }
 
       var company = document.getElementById("qCompany").value.trim();
       var manager = document.getElementById("qManager").value.trim();
-      qDoneBody.textContent =
-        company + " " + manager + "님, 문의 감사합니다. " +
-        "영업일 기준 24시간 안에 한국어 담당자가 회신드리겠습니다. " +
-        "시안이나 참고 자료가 있다면 회신 메일에 첨부해 주세요.";
+      qDoneBody.textContent = MSG.qThanks(company, manager);
 
       quoteForm.hidden = true;
       qDone.hidden = false;
