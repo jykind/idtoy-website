@@ -1,0 +1,6 @@
+# 원본 고해상도 PNG (배포에는 최적화된 JPG만 사용)
+id-toy-final-12/*.png
+
+# 로컬 도구
+.claude/
+*.bat
