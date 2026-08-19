@@ -1,5 +1,5 @@
 /* =====================================================
-   I.D. Toys — KO / EN / TH language switcher
+   I.D. Toy — KO / EN / TH language switcher
    text-node replacement engine + full dictionary
    ===================================================== */
 (function () {
@@ -31,7 +31,7 @@
     "당신의 캐릭터가": ["Where your character", "ที่ที่คาแรกเตอร์ของคุณ"],
     "인형": ["becomes a plush", "กลายเป็นตุ๊กตา"],
     "이 되는 곳": ["", ""],
-    "I.D. Toys는 1980년부터 태국 라차부리에서 봉제인형만 만들어 온 제조사입니다.": ["I.D. Toys has been making plush toys — and only plush toys — in Ratchaburi, Thailand since 1980.", "I.D. Toys ผลิตตุ๊กตาผ้า และเฉพาะตุ๊กตาผ้า ที่ราชบุรี ประเทศไทย มาตั้งแต่ปี 1980"],
+    "I.D. Toy는 1980년부터 태국 라차부리에서 봉제인형만 만들어 온 제조사입니다.": ["I.D. Toy has been making plush toys — and only plush toys — in Ratchaburi, Thailand since 1980.", "I.D. Toy ผลิตตุ๊กตาผ้า และเฉพาะตุ๊กตาผ้า ที่ราชบุรี ประเทศไทย มาตั้งแต่ปี 1980"],
     "시안 한 장으로 시작해 샘플, 양산, 선적까지 — 브랜드의 눈높이에서 함께 만듭니다.": ["From a single sketch to sample, production and shipping — we build at your brand's standard.", "เริ่มจากแบบร่างเพียงแผ่นเดียว สู่ตัวอย่าง การผลิต และการจัดส่ง — เราสร้างไปด้วยกันตามมาตรฐานแบรนด์ของคุณ"],
     "견적 문의하기": ["Request a Quote", "ขอใบเสนอราคา"],
     "제작 서비스 보기": ["See Our Services", "ดูบริการผลิต"],
@@ -87,7 +87,7 @@
     "하나": ["the only thing", "สิ่งเดียว"],
     "만": ["", ""],
     "만들어 온 공장": ["this factory has ever made", "ที่โรงงานนี้ผลิตมาตลอด"],
-    "태국 라차부리의 I.D. Toys는 1980년부터 재단·봉제·검수·포장 전 공정을 한 지붕 아래에서 처리해 온 봉제인형 전문 제조사입니다.": ["Since 1980, I.D. Toys in Ratchaburi has handled everything — cutting, sewing, inspection and packing — under one roof.", "ตั้งแต่ปี 1980 I.D. Toys ที่ราชบุรีดูแลทุกขั้นตอน ตั้งแต่ตัดผ้า เย็บ ตรวจสอบ จนถึงบรรจุ ภายใต้หลังคาเดียว"],
+    "태국 라차부리의 I.D. Toy는 1980년부터 재단·봉제·검수·포장 전 공정을 한 지붕 아래에서 처리해 온 봉제인형 전문 제조사입니다.": ["Since 1980, I.D. Toy in Ratchaburi has handled everything — cutting, sewing, inspection and packing — under one roof.", "ตั้งแต่ปี 1980 I.D. Toy ที่ราชบุรีดูแลทุกขั้นตอน ตั้งแต่ตัดผ้า เย็บ ตรวจสอบ จนถึงบรรจุ ภายใต้หลังคาเดียว"],
     "46년째, 인형만": ["46 years in —", "46 ปีแล้ว —"],
     "만드는 중": ["still making plush,", "ยังคงผลิตแต่ตุ๊กตา"],
     "입니다": ["nothing else", ""],
@@ -114,7 +114,7 @@
     "46주년 파티": ["46th anniversary party", "ปาร์ตี้ครบ 46 ปี"],
     "전 공정이 한 공장 안에서": ["Every process happens", "ทุกขั้นตอนเกิดขึ้น"],
     "이루어집니다": ["inside one factory", "ในโรงงานเดียว"],
-    "I.D. Toys는 태국 라차부리(Ratchaburi)에 자리한 봉제인형 전문 제조사입니다. 원단 재단부터 봉제, 표정 자수, 충전, 검수, 포장까지 전 공정을 한 공장 안에서 처리하기 때문에 품질 편차 없이 납기를 지킬 수 있습니다.": ["I.D. Toys is a plush toy specialist in Ratchaburi, Thailand. Cutting, sewing, face embroidery, stuffing, inspection and packing all happen in one factory — so quality stays consistent and deadlines are kept.", "I.D. Toys คือผู้ผลิตตุ๊กตาผ้าโดยเฉพาะที่ราชบุรี ทุกขั้นตอน ตั้งแต่ตัดผ้า เย็บ ปักหน้า ยัดใย ตรวจสอบ และบรรจุ ทำในโรงงานเดียว จึงควบคุมคุณภาพและกำหนดส่งได้แม่นยำ"],
+    "I.D. Toy는 태국 라차부리(Ratchaburi)에 자리한 봉제인형 전문 제조사입니다. 원단 재단부터 봉제, 표정 자수, 충전, 검수, 포장까지 전 공정을 한 공장 안에서 처리하기 때문에 품질 편차 없이 납기를 지킬 수 있습니다.": ["I.D. Toy is a plush toy specialist in Ratchaburi, Thailand. Cutting, sewing, face embroidery, stuffing, inspection and packing all happen in one factory — so quality stays consistent and deadlines are kept.", "I.D. Toy คือผู้ผลิตตุ๊กตาผ้าโดยเฉพาะที่ราชบุรี ทุกขั้นตอน ตั้งแต่ตัดผ้า เย็บ ปักหน้า ยัดใย ตรวจสอบ และบรรจุ ทำในโรงงานเดียว จึงควบคุมคุณภาพและกำหนดส่งได้แม่นยำ"],
     "캐릭터 IP의 굿즈화, 기업 판촉물, 브랜드 웰컴 키트, 유아·교육 브랜드의 정식 상품까지 —": ["Character IP goods, corporate giveaways, brand welcome kits, retail products for kids brands —", "สินค้าคาแรกเตอร์ ของพรีเมียมองค์กร เวลคัมคิทของแบรนด์ จนถึงสินค้าจริงของแบรนด์เด็ก —"],
     "도면 그대로 만드는 것": ["building exactly to spec", "ผลิตตรงตามแบบ"],
     "과": [" and ", " และ "],
@@ -369,7 +369,7 @@
     "카카오채널 @아이디토이": ["KakaoTalk @idtoy", "KakaoTalk @idtoy"],
     "Blog — 공방일지": ["Blog — Atelier Diary", "บล็อก — บันทึกโรงงาน"],
     "기업 굿즈·OEM 제작 문의는": ["For corporate goods & OEM inquiries, visit", "สอบถามงานองค์กรและ OEM ได้ที่"],
-    "I.D. Toys 기업 페이지": ["the I.D. Toys business site", "เพจธุรกิจ I.D. Toys"],
+    "I.D. Toy 기업 페이지": ["the I.D. Toy business site", "เพจธุรกิจ I.D. Toy"],
     "에서": ["", ""],
 
     /* ===== order page ===== */

@@ -1,5 +1,5 @@
 /* =====================================================
-   I.D. Toys — shared site interactions (all pages)
+   I.D. Toy — shared site interactions (all pages)
    every block guards for element existence
    ===================================================== */
 (function () {

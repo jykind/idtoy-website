@@ -1,5 +1,5 @@
 /**
- * I.D. Toys 견적 문의 수신 스크립트 v3
+ * I.D. Toy 견적 문의 수신 스크립트 v3
  * ─────────────────────────────────────
  * 문의가 접수되면:
  *  1) 구글 시트에 한 줄 저장 — 머리글(한/태 병기)은 매번 자동 점검·교체 (시트 비울 필요 없음)
@@ -12,7 +12,7 @@
 
 var SHEET_NAME = "견적문의";                 // 문의가 쌓일 시트 탭 이름
 var ADMIN_EMAIL = "lifeyes1002@gmail.com";   // 관리자(알림 수신) 이메일
-var BRAND_NAME = "I.D. Toys";
+var BRAND_NAME = "I.D. Toy";
 
 var HEADERS = [
   "접수시각\nเวลาที่ได้รับ",
@@ -69,7 +69,7 @@ function doPost(e) {
       MailApp.sendEmail({
         to: ADMIN_EMAIL,
         name: BRAND_NAME + " Website",
-        subject: "[I.D. Toys 새 견적 문의 · คำขอใหม่] " + (p.company || "회사명 미입력") +
+        subject: "[I.D. Toy 새 견적 문의 · คำขอใหม่] " + (p.company || "회사명 미입력") +
                  " - " + shorten(p.type, 20) + " (" + (p.qty || "수량 미정") + ")",
         htmlBody: adminTemplate(lang, p)
       });
@@ -134,30 +134,30 @@ function detectLang(p) {
 function customerTemplate(lang, p) {
   var T = {
     ko: {
-      subject: "[I.D. Toys] 견적 문의가 정상적으로 접수되었습니다.",
-      greeting: esc(p.manager || "고객") + "님, 안녕하세요! 🧸<br><b>I.D. Toys</b>입니다.",
+      subject: "[I.D. Toy] 견적 문의가 정상적으로 접수되었습니다.",
+      greeting: esc(p.manager || "고객") + "님, 안녕하세요! 🧸<br><b>I.D. Toy</b>입니다.",
       intro: "보내주신 견적 문의가 정상적으로 접수되었습니다.<br>아래 내용으로 확인하고 있어요.",
       labels: ["회사명", "제작 방식", "예상 수량", "희망 납기"],
       closing: "확인 후 <b>1영업일 이내</b>에 상세 견적 및 일정을 안내해 드리겠습니다.",
-      sign: "따뜻한 인형을 만드는 사람들,<br><b>I.D. Toys Co., Ltd.</b> — Since 1980",
+      sign: "따뜻한 인형을 만드는 사람들,<br><b>I.D. Toy Co., Ltd.</b> — Since 1980",
       footer: "본 메일은 접수 확인 메일입니다. 문의는 이 메일에 회신하시면 담당자에게 전달됩니다."
     },
     en: {
-      subject: "[I.D. Toys] Quotation Inquiry Received Successfully",
-      greeting: "Hello " + esc(p.manager || "there") + "! 🧸<br>This is <b>I.D. Toys</b>.",
+      subject: "[I.D. Toy] Quotation Inquiry Received Successfully",
+      greeting: "Hello " + esc(p.manager || "there") + "! 🧸<br>This is <b>I.D. Toy</b>.",
       intro: "Your quotation inquiry has been received successfully.<br>Here is a summary of your request.",
       labels: ["Company", "Production Type", "Estimated Quantity", "Target Delivery"],
       closing: "We will review your inquiry and get back to you with a detailed quotation and schedule <b>within 1 business day</b>.",
-      sign: "The people who make warm plush toys,<br><b>I.D. Toys Co., Ltd.</b> — Since 1980",
+      sign: "The people who make warm plush toys,<br><b>I.D. Toy Co., Ltd.</b> — Since 1980",
       footer: "This is an automated confirmation email. Reply to this email to reach our team directly."
     },
     th: {
-      subject: "[I.D. Toys] ได้รับคำขอใบเสนอราคาเรียบร้อยแล้ว",
-      greeting: "สวัสดีค่ะ คุณ" + esc(p.manager || "ลูกค้า") + " 🧸<br>จาก <b>I.D. Toys</b> ค่ะ",
+      subject: "[I.D. Toy] ได้รับคำขอใบเสนอราคาเรียบร้อยแล้ว",
+      greeting: "สวัสดีค่ะ คุณ" + esc(p.manager || "ลูกค้า") + " 🧸<br>จาก <b>I.D. Toy</b> ค่ะ",
       intro: "เราได้รับคำขอใบเสนอราคาของคุณเรียบร้อยแล้ว<br>สรุปรายละเอียดคำขอของคุณดังนี้ค่ะ",
       labels: ["บริษัท", "รูปแบบการผลิต", "จำนวนโดยประมาณ", "กำหนดส่งที่ต้องการ"],
       closing: "ทีมงานจะตรวจสอบและส่งใบเสนอราคาพร้อมกำหนดการโดยละเอียดให้<b>ภายใน 1 วันทำการ</b>ค่ะ",
-      sign: "ทีมผู้ผลิตตุ๊กตาอบอุ่น,<br><b>I.D. Toys Co., Ltd.</b> — Since 1980",
+      sign: "ทีมผู้ผลิตตุ๊กตาอบอุ่น,<br><b>I.D. Toy Co., Ltd.</b> — Since 1980",
       footer: "อีเมลนี้เป็นการยืนยันรับเรื่องอัตโนมัติ หากต้องการติดต่อทีมงาน สามารถตอบกลับอีเมลนี้ได้เลยค่ะ"
     }
   };
@@ -178,7 +178,7 @@ function customerTemplate(lang, p) {
     '<div style="max-width:520px;margin:0 auto;background:#FFFFFF;border-radius:24px;overflow:hidden;box-shadow:0 10px 30px rgba(74,59,48,0.10)">' +
     '<div style="background:#FFE9A8;padding:18px 28px;text-align:center">' +
     '<span style="font-size:22px">🧸</span> ' +
-    '<span style="font-weight:800;font-size:18px;color:#4A3B30;letter-spacing:0.5px">I.D. TOYS</span>' +
+    '<span style="font-weight:800;font-size:18px;color:#4A3B30;letter-spacing:0.5px">I.D. TOY</span>' +
     '<div style="font-size:10px;letter-spacing:2px;color:#8a6f3f;margin-top:2px">PLUSH MANUFACTURER · SINCE 1980</div>' +
     '</div>' +
     '<div style="padding:30px 28px;color:#4A3B30;line-height:1.8;font-size:14px">' +
@@ -189,7 +189,7 @@ function customerTemplate(lang, p) {
     '<p style="margin:0;color:#4A3B30">' + t.sign + '</p>' +
     '</div>' +
     '<div style="background:#FFF4DC;padding:14px 28px;text-align:center;font-size:11px;color:#9C8B7B;line-height:1.6">' +
-    t.footer + '<br>I.D. Toys Co., Ltd. · 199 Moo 2, T. Taopoon, A. Photharam, Ratchaburi, Thailand' +
+    t.footer + '<br>I.D. Toy Co., Ltd. · 199 Moo 2, T. Taopoon, A. Photharam, Ratchaburi, Thailand' +
     '</div>' +
     '</div></div>';
 
@@ -283,5 +283,5 @@ function jsonOut(obj) {
 
 /** 브라우저로 웹앱 URL을 직접 열었을 때 확인용 */
 function doGet() {
-  return jsonOut({ status: "I.D. Toys quote endpoint OK (v3)" });
+  return jsonOut({ status: "I.D. Toy quote endpoint OK (v3)" });
 }
