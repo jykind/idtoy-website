@@ -223,7 +223,8 @@ html[lang="th"] .page-head__title { font-weight: 700; line-height: 1.45; }
 .nav-toggle[aria-expanded="true"] span:nth-child(2) { top: 22px; transform: rotate(-45deg); }
 
 @media (max-width: 920px) {
-  .nav-toggle { display: block; }
+  .nav-toggle { display: block; flex: none; }
+  .lang { flex: none; }
   .nav {
     position: fixed; inset: 0; z-index: 105;
     flex-direction: column; justify-content: center; gap: 36px;
@@ -234,6 +235,19 @@ html[lang="th"] .page-head__title { font-weight: 700; line-height: 1.45; }
   .nav.is-open { opacity: 1; visibility: visible; }
   .nav__list { flex-direction: column; align-items: center; gap: 14px; }
   .nav__link { font-size: 20px; padding: 10px 26px; }
+}
+@media (max-width: 640px) {
+  .header__inner { gap: 10px; }
+  .logo__sub { display: none; }
+  .logo { flex: none; }
+  .lang { padding: 2px; }
+  .lang__btn { padding: 5px 9px; font-size: 11px; }
+  .nav-toggle { width: 42px; height: 42px; }
+  .nav-toggle span { left: 12px; right: 12px; }
+  .nav-toggle span:nth-child(1) { top: 17px; }
+  .nav-toggle span:nth-child(2) { top: 24px; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1),
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { top: 20px; }
 }
 
 /* =====================================================
@@ -256,8 +270,11 @@ html[lang="th"] .page-head__title { font-weight: 700; line-height: 1.45; }
 }
 @media (max-width: 720px) {
   .hero__scrim {
-    background: linear-gradient(0deg, rgba(255,249,240,.98) 0%, rgba(255,249,240,.8) 42%, rgba(255,249,240,.25) 75%, rgba(255,249,240,.5) 100%);
+    background: linear-gradient(0deg, rgba(255,249,240,.96) 0%, rgba(255,249,240,.68) 32%, rgba(255,249,240,.06) 58%, rgba(255,249,240,.16) 100%);
   }
+  .hero__content { padding-bottom: 44px; }
+  .hero__lead { margin-bottom: 26px; }
+  .hero__actions .btn { flex: 1 1 auto; text-align: center; justify-content: center; }
 }
 .hero__meta {
   position: absolute; z-index: 2;
@@ -417,7 +434,12 @@ html[lang="th"] .page-head__title { font-weight: 700; line-height: 1.45; }
 }
 .trust__item span { display: block; font-size: 13.5px; line-height: 1.6; color: rgba(74,59,48,.75); }
 @media (max-width: 880px) { .trust__grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 480px) { .trust__grid { grid-template-columns: 1fr; } }
+@media (max-width: 480px) {
+  .trust__grid { gap: 12px; }
+  .trust__item { padding: 18px 16px 16px; }
+  .trust__item strong { font-size: 16px; }
+  .trust__item span { font-size: 12.5px; }
+}
 
 /* =====================================================
    brand / about
