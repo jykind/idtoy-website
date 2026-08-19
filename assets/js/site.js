@@ -73,18 +73,27 @@
   var navToggle = document.getElementById("navToggle");
   var nav = document.getElementById("nav");
   if (navToggle && nav) {
-    navToggle.addEventListener("click", function () {
-      var open = nav.classList.toggle("is-open");
+    var setNav = function (open) {
+      nav.classList.toggle("is-open", open);
+      document.body.classList.toggle("nav-open", open);
       navToggle.setAttribute("aria-expanded", open ? "true" : "false");
       navToggle.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
       document.body.style.overflow = open ? "hidden" : "";
+    };
+    navToggle.addEventListener("click", function () {
+      setNav(!nav.classList.contains("is-open"));
     });
     nav.addEventListener("click", function (e) {
-      if (e.target.closest("a")) {
-        nav.classList.remove("is-open");
-        navToggle.setAttribute("aria-expanded", "false");
-        document.body.style.overflow = "";
-      }
+      if (e.target.closest("a")) setNav(false);
+    });
+    /* 드로어 밖(백드롭) 탭 또는 ESC로 닫기 */
+    document.addEventListener("click", function (e) {
+      if (!nav.classList.contains("is-open")) return;
+      if (e.target.closest("#nav") || e.target.closest("#navToggle")) return;
+      setNav(false);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && nav.classList.contains("is-open")) setNav(false);
     });
   }
 
@@ -111,16 +120,6 @@
     document.querySelectorAll("video").forEach(function (v) {
       v.removeAttribute("autoplay");
       v.pause();
-    });
-  }
-
-  /* ---------- founders lookbook marquee (duplicate track for seamless loop) ---------- */
-  var duoTrack = document.querySelector(".duo__track");
-  if (duoTrack && !prefersReduced) {
-    Array.prototype.slice.call(duoTrack.children).forEach(function (card) {
-      var clone = card.cloneNode(true);
-      clone.setAttribute("aria-hidden", "true");
-      duoTrack.appendChild(clone);
     });
   }
 

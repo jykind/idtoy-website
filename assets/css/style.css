@@ -226,15 +226,29 @@ html[lang="th"] .page-head__title { font-weight: 700; line-height: 1.45; }
   .nav-toggle { display: block; flex: none; }
   .lang { flex: none; }
   .nav {
-    position: fixed; inset: 0; z-index: 105;
-    flex-direction: column; justify-content: center; gap: 36px;
-    background: var(--butter-soft);
-    opacity: 0; visibility: hidden;
-    transition: opacity .35s ease, visibility .35s;
+    position: fixed; top: 0; right: 0; bottom: 0; left: auto; z-index: 106;
+    width: min(78vw, 320px);
+    flex-direction: column; justify-content: center; align-items: center; gap: 30px;
+    background: rgba(255, 244, 220, .88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: -18px 0 50px rgba(74, 59, 48, .2);
+    border-radius: 26px 0 0 26px;
+    transform: translateX(105%);
+    visibility: hidden;
+    transition: transform .38s cubic-bezier(.32,.72,.28,1), visibility .38s;
   }
-  .nav.is-open { opacity: 1; visibility: visible; }
-  .nav__list { flex-direction: column; align-items: center; gap: 14px; }
-  .nav__link { font-size: 20px; padding: 10px 26px; }
+  .nav.is-open { transform: translateX(0); visibility: visible; }
+  .nav__list { flex-direction: column; align-items: center; gap: 12px; }
+  .nav__link { font-size: 18px; padding: 10px 24px; }
+  body.nav-open::after {
+    content: ""; position: fixed; inset: 0; z-index: 99; /* 헤더(100) 아래, 본문 위 */
+    background: rgba(74, 59, 48, .32);
+  }
+  /* backdrop-filter가 있으면 헤더가 fixed 드로어의 기준 박스가 되어 찌그러짐 */
+  .header, .header.is-scrolled { backdrop-filter: none; }
+  .header.is-scrolled { background: rgba(255, 249, 240, .97); }
+  .nav-toggle { z-index: 112; }
 }
 @media (max-width: 640px) {
   .header__inner { gap: 10px; }
@@ -496,53 +510,6 @@ html[lang="th"] .page-head__title { font-weight: 700; line-height: 1.45; }
   .brand__grid { grid-template-columns: 1fr; }
   .brand__visual { margin-top: 10px; }
   .brand__photo--sub { bottom: -30px; }
-}
-
-/* ===== Founders lookbook marquee ===== */
-.duo { overflow: hidden; }
-.duo__head { text-align: center; margin-bottom: 44px; }
-.duo__lead {
-  max-width: 560px; margin: 18px auto 0;
-  font-size: 16px; line-height: 1.75; color: var(--muted);
-}
-.duo__marquee { overflow: hidden; position: relative; }
-.duo__marquee::before, .duo__marquee::after {
-  content: ""; position: absolute; top: 0; bottom: 0; width: 90px; z-index: 2; pointer-events: none;
-}
-.duo__marquee::before { left: 0; background: linear-gradient(90deg, var(--cream), transparent); }
-.duo__marquee::after { right: 0; background: linear-gradient(-90deg, var(--cream), transparent); }
-.duo__track {
-  display: flex; gap: 22px; width: max-content;
-  animation: duo-scroll 55s linear infinite;
-}
-.duo__marquee:hover .duo__track { animation-play-state: paused; }
-@keyframes duo-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.duo__card {
-  width: 210px; flex: none;
-  background: var(--white);
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-md);
-  transform: rotate(-1deg);
-}
-.duo__card:nth-child(even) { transform: rotate(1.2deg); }
-.duo__card img { width: 100%; height: auto; display: block; }
-.duo__card figcaption {
-  padding: 10px 14px 12px;
-  font-family: var(--f-round); font-weight: 500;
-  font-size: 13px; color: var(--ink);
-  text-align: center;
-}
-@media (prefers-reduced-motion: reduce) {
-  .duo__track { animation: none; }
-  .duo__marquee { overflow-x: auto; }
-}
-@media (max-width: 640px) {
-  .duo__card { width: 160px; }
-  .duo__track { gap: 14px; }
 }
 
 .about__addr {
@@ -1008,6 +975,15 @@ html[lang="th"] .page-head__title { font-weight: 700; line-height: 1.45; }
   box-shadow: var(--shadow-lg);
 }
 .consumer__lead { color: #6E5C4D; margin-bottom: 30px; }
+@media (max-width: 720px) {
+  .consumer { padding-block: 0 52px; }
+  .consumer__inner { padding-top: min(78vw, 340px); }
+  .consumer__bg img { object-position: 30% 55%; }
+  .consumer__bg::after {
+    background: linear-gradient(180deg, rgba(255,249,240,.12) 0%, transparent 42%, rgba(255,249,240,.35) 100%);
+  }
+  .consumer__panel { background: rgba(255, 255, 255, .96); }
+}
 
 /* =====================================================
    gift
