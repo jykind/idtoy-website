@@ -95,7 +95,7 @@
     "그래서 지금은 어떤 캐릭터를 가져와도 인형으로 만들 수 있습니다. 짬에서 나오는 바이브, 46년이면 그럴 만하죠.": ["So today, bring us any character and we can make it plush. Experience has its own vibe — 46 years will do that.", "วันนี้ไม่ว่าคาแรกเตอร์ไหน เราก็ทำเป็นตุ๊กตาได้ ประสบการณ์มันมีออร่าของมันเอง — 46 ปีก็แบบนี้แหละ"],
     "“트렌드는 계속 바뀝니다.": ["“Trends keep changing.", "“เทรนด์เปลี่ยนตลอด"],
     "잘 만든 인형은 안 바뀌고요.”": ["A well-made plush doesn't.”", "แต่ตุ๊กตาที่ทำดีไม่เปลี่ยน”"],
-    "오래 곁에 두는 물건을 만든다는 마음으로": ["Made to stay by your side for years", "ผลิตด้วยใจ ให้อยู่ข้างกายไปนาน ๆ"],
+    "라차부리 공장, 오늘도 문을 엽니다": ["The Ratchaburi factory opens its doors again today", "โรงงานราชบุรี เปิดประตูอีกครั้งในวันนี้"],
     "전 공정이 한 공장 안에서": ["Every process happens", "ทุกขั้นตอนเกิดขึ้น"],
     "이루어집니다": ["inside one factory", "ในโรงงานเดียว"],
     "I.D. Toys는 태국 라차부리(Ratchaburi)에 자리한 봉제인형 전문 제조사입니다. 원단 재단부터 봉제, 표정 자수, 충전, 검수, 포장까지 전 공정을 한 공장 안에서 처리하기 때문에 품질 편차 없이 납기를 지킬 수 있습니다.": ["I.D. Toys is a plush toy specialist in Ratchaburi, Thailand. Cutting, sewing, face embroidery, stuffing, inspection and packing all happen in one factory — so quality stays consistent and deadlines are kept.", "I.D. Toys คือผู้ผลิตตุ๊กตาผ้าโดยเฉพาะที่ราชบุรี ทุกขั้นตอน ตั้งแต่ตัดผ้า เย็บ ปักหน้า ยัดใย ตรวจสอบ และบรรจุ ทำในโรงงานเดียว จึงควบคุมคุณภาพและกำหนดส่งได้แม่นยำ"],

@@ -4,3 +4,6 @@ id-toy-final-12/*.png
 # 로컬 도구
 .claude/
 *.bat
+
+# 개인 원본 사진은 공개 저장소에 올리지 않음 (일러스트 변환본만 사용)
+company-photos/
