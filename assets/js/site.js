@@ -264,45 +264,50 @@
       var company = document.getElementById("qCompany").value.trim();
       var manager = document.getElementById("qManager").value.trim();
 
-      /* --- actually send via FormSubmit (no-signup relay to lifeyes2011@gmail.com) --- */
+      /* --- send to Google Sheets via Apps Script web app --- */
+      /* 배포한 앱스스크립트 웹앱 URL(/exec)을 아래에 넣으면 연결됩니다 */
+      var QUOTE_ENDPOINT = "";
+
       var submitBtn = quoteForm.querySelector(".form__submit");
+
+      if (!QUOTE_ENDPOINT) {
+        qError.hidden = false;
+        qError.textContent = MSG.sendFail;
+        return;
+      }
+
       submitBtn.disabled = true;
       submitBtn.textContent = MSG.sending;
 
-      var payload = {
-        _subject: "[I.D. Toys] 견적 문의 — " + company,
-        _template: "table",
-        "회사명": company,
-        "담당자": manager,
-        "이메일": email.value.trim(),
-        "연락처": document.getElementById("qPhone").value.trim(),
-        "제작방식": document.getElementById("qType").value,
-        "예상수량": document.getElementById("qQty").value,
-        "희망납기": document.getElementById("qWhen").value,
-        "프로젝트설명": document.getElementById("qMsg").value.trim(),
-        "언어": LANG
-      };
-
-      fetch("https://formsubmit.co/ajax/lifeyes2011@gmail.com", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify(payload)
-      }).then(function (res) {
-        if (!res.ok) throw new Error("send failed");
-        return res.json();
-      }).then(function (data) {
-        if (!data || String(data.success) !== "true") throw new Error(data && data.message ? data.message : "send failed");
-        qDoneBody.textContent = MSG.qThanks(company, manager);
-        quoteForm.hidden = true;
-        qDone.hidden = false;
-        qDone.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "center" });
-      }).catch(function () {
-        qError.hidden = false;
-        qError.textContent = MSG.sendFail;
-      }).finally(function () {
-        submitBtn.disabled = false;
-        submitBtn.textContent = MSG.sendBtn;
+      var body = new URLSearchParams({
+        company: company,
+        manager: manager,
+        email: email.value.trim(),
+        phone: document.getElementById("qPhone").value.trim(),
+        type: document.getElementById("qType").value,
+        qty: document.getElementById("qQty").value,
+        when: document.getElementById("qWhen").value,
+        message: document.getElementById("qMsg").value.trim(),
+        lang: LANG
       });
+
+      fetch(QUOTE_ENDPOINT, { method: "POST", body: body })
+        .then(function (res) {
+          if (!res.ok) throw new Error("send failed");
+          return res.json();
+        }).then(function (data) {
+          if (!data || data.result !== "success") throw new Error(data && data.message ? data.message : "send failed");
+          qDoneBody.textContent = MSG.qThanks(company, manager);
+          quoteForm.hidden = true;
+          qDone.hidden = false;
+          qDone.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "center" });
+        }).catch(function () {
+          qError.hidden = false;
+          qError.textContent = MSG.sendFail;
+        }).finally(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = MSG.sendBtn;
+        });
     });
 
     quoteForm.addEventListener("input", function (e) {
