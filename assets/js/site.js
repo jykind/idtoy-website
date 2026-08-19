@@ -265,8 +265,7 @@
       var manager = document.getElementById("qManager").value.trim();
 
       /* --- send to Google Sheets via Apps Script web app --- */
-      /* 배포한 앱스스크립트 웹앱 URL(/exec)을 아래에 넣으면 연결됩니다 */
-      var QUOTE_ENDPOINT = "";
+      var QUOTE_ENDPOINT = "https://script.google.com/macros/s/AKfycbxPisXkHeibBTehckqepbP5nANBM1yaDTbmfYxukWwduS3h2kJv6teX6nizTxZVhg/exec";
 
       var submitBtn = quoteForm.querySelector(".form__submit");
 
