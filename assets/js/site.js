@@ -114,6 +114,16 @@
     });
   }
 
+  /* ---------- founders lookbook marquee (duplicate track for seamless loop) ---------- */
+  var duoTrack = document.querySelector(".duo__track");
+  if (duoTrack && !prefersReduced) {
+    Array.prototype.slice.call(duoTrack.children).forEach(function (card) {
+      var clone = card.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      duoTrack.appendChild(clone);
+    });
+  }
+
   /* ---------- moments gallery nav ---------- */
   var gallery = document.getElementById("gallery");
   var galPrev = document.getElementById("galPrev");
