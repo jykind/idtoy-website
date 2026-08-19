@@ -16,13 +16,21 @@ function doPost(e) {
     var sheet = ss.getSheetByName(SHEET_NAME);
     if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
 
-    // 첫 행(머리글)이 없으면 생성
+    // 첫 행(머리글)이 없으면 생성 — 한국어/태국어 병기
     if (sheet.getLastRow() === 0) {
       sheet.appendRow([
-        "접수시각", "회사명", "담당자", "이메일", "연락처",
-        "제작방식", "예상수량", "희망납기", "프로젝트 설명", "언어"
+        "접수시각\nเวลาที่ได้รับ",
+        "회사명\nชื่อบริษัท",
+        "담당자\nผู้ติดต่อ",
+        "이메일\nอีเมล",
+        "연락처\nเบอร์ติดต่อ",
+        "제작방식\nรูปแบบการผลิต",
+        "예상수량\nจำนวนโดยประมาณ",
+        "희망납기\nกำหนดส่งที่ต้องการ",
+        "프로젝트 설명\nรายละเอียดโปรเจกต์",
+        "언어\nภาษา"
       ]);
-      sheet.getRange(1, 1, 1, 10).setFontWeight("bold").setBackground("#FFE9A8");
+      sheet.getRange(1, 1, 1, 10).setFontWeight("bold").setBackground("#FFE9A8").setVerticalAlignment("middle");
       sheet.setFrozenRows(1);
     }
 
