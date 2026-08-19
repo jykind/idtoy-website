@@ -137,11 +137,10 @@
     syncTag();
   }
 
-  /* ---------- "이 친구 주문하기" → order page ---------- */
+  /* ---------- "이 몸판으로 견적 문의" → contact page ---------- */
   document.querySelectorAll(".friend__adopt").forEach(function (btn) {
     btn.addEventListener("click", function () {
-      var friend = btn.closest(".friend").dataset.friend;
-      window.location.href = "order.html?friend=" + encodeURIComponent(friend);
+      window.location.href = "contact.html";
     });
   });
 

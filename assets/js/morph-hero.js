@@ -43,13 +43,13 @@
   IMAGES.forEach(function (src, i) {
     var card = document.createElement("a");
     card.className = "mcard";
-    card.href = "order.html";
-    card.setAttribute("aria-label", "주문 예약 페이지로 이동");
+    card.href = "contact.html";
+    card.setAttribute("aria-label", "견적 문의 페이지로 이동");
     card.tabIndex = -1; // keep 16 cards out of the tab order; CTA button covers keyboard users
     card.innerHTML =
       '<span class="mcard__inner">' +
         '<span class="mcard__face mcard__face--front"><img src="' + src + '" alt="" loading="eager"></span>' +
-        '<span class="mcard__face mcard__face--back"><span class="mcard__back-inner"><em>ID TOY</em><strong>주문하기 →</strong></span></span>' +
+        '<span class="mcard__face mcard__face--back"><span class="mcard__back-inner"><em>ID TOY</em><strong>견적 문의 →</strong></span></span>' +
       "</span>";
     stage.appendChild(card);
     cards.push({
