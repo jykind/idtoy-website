@@ -452,11 +452,16 @@ html[lang="th"] .page-head__title { font-weight: 700; line-height: 1.45; }
 .brand__visual { position: relative; }
 .brand__photo { border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-lg); }
 .brand__photo img { width: 100%; height: auto; }
-.brand__photo--main { width: 84%; border-radius: 999px 999px var(--r-lg) var(--r-lg); }
+.brand__photo--main { width: 80%; border-radius: 999px 999px var(--r-lg) var(--r-lg); }
 .brand__photo--sub {
-  position: absolute; right: 0; bottom: -46px; width: 56%;
+  position: absolute; right: 0; bottom: -46px; width: 46%;
   border: 8px solid var(--cream);
   transform: rotate(2deg);
+}
+.brand__photo--sub img {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center 32%;
 }
 .tint-butter .brand__photo--sub, .tint-sky .brand__photo--sub { border-color: var(--white); }
 .brand__photo--sub figcaption {
