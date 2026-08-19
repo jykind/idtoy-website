@@ -1,10 +1,11 @@
 /**
- * I.D. Toys 견적 문의 수신 스크립트 v2
+ * I.D. Toys 견적 문의 수신 스크립트 v3
  * ─────────────────────────────────────
  * 문의가 접수되면:
- *  1) 구글 시트에 한 줄 저장 (머리글 한/태 병기)
+ *  1) 구글 시트에 한 줄 저장 — 머리글(한/태 병기)은 매번 자동 점검·교체 (시트 비울 필요 없음)
  *  2) 고객에게 → 고객의 언어(한국어/영어/태국어)로 접수 확인 메일 자동 발송
- *  3) 관리자에게 → 전체 내용 + 외국어는 한국어 자동 번역을 붙여 알림 메일 발송
+ *  3) 관리자에게 → 한국어/태국어 병기 알림 + 내용 자동 번역 병기
+ *     (한국어 문의→태국어 번역 / 태국어 문의→한국어 번역 / 영어 문의→양쪽 번역)
  *
  * 설치·배포 방법은 같은 폴더의 "구글시트-연동-가이드.md" 참고.
  */
@@ -12,6 +13,18 @@
 var SHEET_NAME = "견적문의";                 // 문의가 쌓일 시트 탭 이름
 var ADMIN_EMAIL = "lifeyes1002@gmail.com";   // 관리자(알림 수신) 이메일
 var BRAND_NAME = "I.D. Toys";
+
+var HEADERS = [
+  "접수시각\nเวลาที่ได้รับ",
+  "회사명\nชื่อบริษัท",
+  "담당자\nผู้ติดต่อ",
+  "이메일\nอีเมล",
+  "연락처\nเบอร์ติดต่อ",
+  "제작방식\nรูปแบบการผลิต",
+  "예상수량\nจำนวนโดยประมาณ",
+  "희망납기\nกำหนดส่งที่ต้องการ",
+  "프로젝트 설명\nรายละเอียดโปรเจกต์"
+];
 
 /* ══════════════════════════════════════════
    메인: 폼 수신
@@ -27,22 +40,7 @@ function doPost(e) {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(SHEET_NAME);
     if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
-
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow([
-        "접수시각\nเวลาที่ได้รับ",
-        "회사명\nชื่อบริษัท",
-        "담당자\nผู้ติดต่อ",
-        "이메일\nอีเมล",
-        "연락처\nเบอร์ติดต่อ",
-        "제작방식\nรูปแบบการผลิต",
-        "예상수량\nจำนวนโดยประมาณ",
-        "희망납기\nกำหนดส่งที่ต้องการ",
-        "프로젝트 설명\nรายละเอียดโปรเจกต์"
-      ]);
-      sheet.getRange(1, 1, 1, 9).setFontWeight("bold").setBackground("#FFE9A8").setVerticalAlignment("middle");
-      sheet.setFrozenRows(1);
-    }
+    ensureHeader(sheet);
 
     sheet.appendRow([
       new Date(),
@@ -66,12 +64,12 @@ function doPost(e) {
       // 고객 메일 실패해도 접수 자체는 유지
     }
 
-    /* ── 3. 관리자에게 알림 메일 (외국어 → 한국어 번역 병기) ── */
+    /* ── 3. 관리자에게 알림 메일 (한/태 병기 + 자동 번역) ── */
     try {
       MailApp.sendEmail({
         to: ADMIN_EMAIL,
-        name: BRAND_NAME + " 웹사이트",
-        subject: "[I.D. Toys 새 견적 문의] " + (p.company || "회사명 미입력") +
+        name: BRAND_NAME + " Website",
+        subject: "[I.D. Toys 새 견적 문의 · คำขอใหม่] " + (p.company || "회사명 미입력") +
                  " - " + shorten(p.type, 20) + " (" + (p.qty || "수량 미정") + ")",
         htmlBody: adminTemplate(lang, p)
       });
@@ -83,6 +81,37 @@ function doPost(e) {
     return jsonOut({ result: "error", message: String(err) });
   } finally {
     lock.releaseLock();
+  }
+}
+
+/* ══════════════════════════════════════════
+   머리글 자동 점검 — 구버전이면 교체 (v3)
+   ══════════════════════════════════════════ */
+function ensureHeader(sheet) {
+  var needWrite = false;
+
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(HEADERS);
+    needWrite = true;
+  } else {
+    var a1 = String(sheet.getRange(1, 1).getValue());
+    if (a1.indexOf("เวลา") === -1) {          // 태국어가 없으면 구버전 머리글
+      if (a1.indexOf("접수시각") !== -1) {
+        // 구버전 머리글 → 그 자리에서 교체
+        sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
+      } else {
+        // 머리글 자체가 없음(1행이 데이터) → 위에 새 행 삽입
+        sheet.insertRowBefore(1);
+        sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
+      }
+      needWrite = true;
+    }
+  }
+
+  if (needWrite) {
+    sheet.getRange(1, 1, 1, HEADERS.length)
+      .setFontWeight("bold").setBackground("#FFE9A8").setVerticalAlignment("middle");
+    sheet.setFrozenRows(1);
   }
 }
 
@@ -111,7 +140,7 @@ function customerTemplate(lang, p) {
       labels: ["회사명", "제작 방식", "예상 수량", "희망 납기"],
       closing: "확인 후 <b>1영업일 이내</b>에 상세 견적 및 일정을 안내해 드리겠습니다.",
       sign: "따뜻한 인형을 만드는 사람들,<br><b>I.D. Toys Co., Ltd.</b> — Since 1980",
-      footer: "본 메일은 발신 전용 접수 확인 메일입니다. 문의는 이 메일에 회신하시면 담당자에게 전달됩니다."
+      footer: "본 메일은 접수 확인 메일입니다. 문의는 이 메일에 회신하시면 담당자에게 전달됩니다."
     },
     en: {
       subject: "[I.D. Toys] Quotation Inquiry Received Successfully",
@@ -147,13 +176,11 @@ function customerTemplate(lang, p) {
   var html =
     '<div style="background:#FFF9F0;padding:32px 16px;font-family:\'Apple SD Gothic Neo\',\'Malgun Gothic\',Tahoma,sans-serif">' +
     '<div style="max-width:520px;margin:0 auto;background:#FFFFFF;border-radius:24px;overflow:hidden;box-shadow:0 10px 30px rgba(74,59,48,0.10)">' +
-    // 상단 브랜드 바
     '<div style="background:#FFE9A8;padding:18px 28px;text-align:center">' +
     '<span style="font-size:22px">🧸</span> ' +
     '<span style="font-weight:800;font-size:18px;color:#4A3B30;letter-spacing:0.5px">I.D. TOYS</span>' +
     '<div style="font-size:10px;letter-spacing:2px;color:#8a6f3f;margin-top:2px">PLUSH MANUFACTURER · SINCE 1980</div>' +
     '</div>' +
-    // 본문
     '<div style="padding:30px 28px;color:#4A3B30;line-height:1.8;font-size:14px">' +
     '<p style="margin:0 0 14px;font-size:16px">' + t.greeting + '</p>' +
     '<p style="margin:0 0 22px;color:#6E5C4D">' + t.intro + '</p>' +
@@ -161,7 +188,6 @@ function customerTemplate(lang, p) {
     '<p style="margin:0 0 26px;color:#6E5C4D">' + t.closing + '</p>' +
     '<p style="margin:0;color:#4A3B30">' + t.sign + '</p>' +
     '</div>' +
-    // 푸터
     '<div style="background:#FFF4DC;padding:14px 28px;text-align:center;font-size:11px;color:#9C8B7B;line-height:1.6">' +
     t.footer + '<br>I.D. Toys Co., Ltd. · 199 Moo 2, T. Taopoon, A. Photharam, Ratchaburi, Thailand' +
     '</div>' +
@@ -171,57 +197,67 @@ function customerTemplate(lang, p) {
 }
 
 /* ══════════════════════════════════════════
-   관리자 알림 메일 — 외국어는 한국어 번역 병기
+   관리자 알림 메일 — 한국어/태국어 병기 (v3)
+   내용 번역: ko문의→th번역, th문의→ko번역, en문의→ko+th번역
    ══════════════════════════════════════════ */
 function adminTemplate(lang, p) {
-  var needTranslate = (lang !== "ko");
-  var langLabel = { ko: "한국어", en: "영어", th: "태국어" }[lang] || lang;
+  // 이 문의 내용에 붙일 번역 대상 언어
+  var targets = lang === "ko" ? ["th"] : lang === "th" ? ["ko"] : ["ko", "th"];
+  var langLabel = { ko: "한국어 · เกาหลี", en: "영어 · อังกฤษ", th: "태국어 · ไทย" }[lang] || lang;
 
   var rows =
-    adminRow("접수시각", Utilities.formatDate(new Date(), "Asia/Bangkok", "yyyy-MM-dd HH:mm") + " (태국 기준)") +
-    adminRow("회사명", p.company, needTranslate) +
-    adminRow("담당자", p.manager, needTranslate) +
-    adminRow("이메일", p.email) +
-    adminRow("연락처", p.phone) +
-    adminRow("제작방식", p.type, needTranslate) +
-    adminRow("예상수량", p.qty, needTranslate) +
-    adminRow("희망납기", p.when) +
-    adminRow("프로젝트 설명", p.message, needTranslate) +
-    adminRow("언어", langLabel + " (" + lang + ")");
+    aRow("접수시각", "เวลาที่ได้รับ", Utilities.formatDate(new Date(), "Asia/Bangkok", "yyyy-MM-dd HH:mm") + " (TH)") +
+    aRow("회사명", "ชื่อบริษัท", p.company, targets) +
+    aRow("담당자", "ผู้ติดต่อ", p.manager, targets) +
+    aRow("이메일", "อีเมล", p.email) +
+    aRow("연락처", "เบอร์ติดต่อ", p.phone) +
+    aRow("제작방식", "รูปแบบการผลิต", p.type, targets) +
+    aRow("예상수량", "จำนวนโดยประมาณ", p.qty, targets) +
+    aRow("희망납기", "กำหนดส่ง", p.when) +
+    aRow("프로젝트 설명", "รายละเอียดโปรเจกต์", p.message, targets) +
+    aRow("문의 언어", "ภาษาที่ใช้", langLabel);
 
   return (
-    '<div style="font-family:\'Malgun Gothic\',sans-serif;max-width:600px">' +
-    '<h2 style="color:#4A3B30">🧸 새 견적 문의가 도착했습니다</h2>' +
-    (needTranslate
-      ? '<p style="color:#5B84B5;font-size:13px">🌐 ' + langLabel + ' 문의입니다 — 외국어 항목에는 <b>[한국어 자동 번역]</b>을 함께 표시했습니다.</p>'
-      : "") +
+    '<div style="font-family:\'Malgun Gothic\',Tahoma,sans-serif;max-width:640px">' +
+    '<h2 style="color:#4A3B30;margin-bottom:4px">🧸 새 견적 문의가 도착했습니다</h2>' +
+    '<p style="color:#8a6f3f;margin:0 0 14px;font-size:14px">มีคำขอใบเสนอราคาใหม่เข้ามา</p>' +
+    '<p style="color:#5B84B5;font-size:12.5px;margin:0 0 12px">🌐 ' + langLabel + ' 문의 — 아래 표에 자동 번역을 함께 표시했습니다 · แสดงคำแปลอัตโนมัติไว้ในตารางด้านล่าง</p>' +
     '<table cellpadding="8" style="border-collapse:collapse;width:100%">' + rows + "</table>" +
-    '<p style="color:#9C8B7B;font-size:12px">고객에게는 ' + langLabel + ' 접수 확인 메일이 자동 발송되었습니다.<br>이 메일은 idtoy-website 견적 폼에서 자동 발송되었습니다.</p>' +
+    '<p style="color:#9C8B7B;font-size:11.5px;line-height:1.7">고객에게는 ' + langLabel.split(" · ")[0] + ' 접수 확인 메일이 자동 발송되었습니다.<br>' +
+    'ลูกค้าได้รับอีเมลยืนยันรับเรื่องอัตโนมัติแล้ว · idtoy-website 견적 폼 자동 발송</p>' +
     "</div>"
   );
 }
 
-/** 관리자 표 한 줄. translate=true이고 값에 외국어가 있으면 한국어 번역 병기 */
-function adminRow(label, value, translate) {
-  var raw = String(value || "-");
+/** 관리자 표 한 줄 — 라벨 한/태 병기, targets에 있는 언어로 번역 병기 */
+function aRow(labelKo, labelTh, value, targets) {
+  var raw = String(value || "-").trim();
+  if (raw === "") raw = "-";
   var display = esc(raw).replace(/\n/g, "<br>");
 
-  if (translate && raw !== "-" && raw.trim() !== "" && !/^[가-힣\s\d\W]*$/.test(raw)) {
-    try {
-      var translated = LanguageApp.translate(raw, "", "ko");
-      if (translated && translated.trim() !== raw.trim()) {
-        display =
-          '<div style="color:#333">' + esc(raw).replace(/\n/g, "<br>") + "</div>" +
-          '<div style="margin-top:6px;padding:6px 10px;background:#EEF5FC;border-radius:6px;color:#2c5988;font-size:12px">' +
-          "<b>[한국어 번역]</b> " + esc(translated).replace(/\n/g, "<br>") + "</div>";
-      }
-    } catch (trErr) { /* 번역 실패 시 원문만 표시 */ }
+  if (targets && raw !== "-") {
+    var boxes = "";
+    for (var i = 0; i < targets.length; i++) {
+      var target = targets[i];
+      try {
+        var translated = LanguageApp.translate(raw, "", target);
+        if (translated && norm(translated) !== norm(raw)) {
+          var tag = target === "ko" ? "🇰🇷 한국어" : "🇹🇭 ไทย";
+          var bg = target === "ko" ? "#EEF5FC" : "#FFF0EA";
+          var col = target === "ko" ? "#2c5988" : "#a5502f";
+          boxes +=
+            '<div style="margin-top:6px;padding:6px 10px;background:' + bg + ';border-radius:6px;color:' + col + ';font-size:12px">' +
+            "<b>[" + tag + "]</b> " + esc(translated).replace(/\n/g, "<br>") + "</div>";
+        }
+      } catch (trErr) { /* 번역 실패 시 원문만 */ }
+    }
+    if (boxes) display = '<div style="color:#333">' + display + "</div>" + boxes;
   }
 
   return (
-    '<tr><td style="border:1px solid #eee;background:#FFF4DC;white-space:nowrap;vertical-align:top"><b>' +
-    label + "</b></td>" +
-    '<td style="border:1px solid #eee">' + display + "</td></tr>"
+    '<tr><td style="border:1px solid #eee;background:#FFF4DC;white-space:nowrap;vertical-align:top;font-size:12.5px;line-height:1.5"><b>' +
+    labelKo + "</b><br><span style='color:#8a6f3f;font-weight:normal'>" + labelTh + "</span></td>" +
+    '<td style="border:1px solid #eee;font-size:13px">' + display + "</td></tr>"
   );
 }
 
@@ -234,6 +270,9 @@ function isValidEmail(v) {
 function esc(s) {
   return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
+function norm(s) {
+  return String(s || "").replace(/\s+/g, " ").trim().toLowerCase();
+}
 function shorten(s, n) {
   s = String(s || "방식 미선택");
   return s.length > n ? s.slice(0, n) + "…" : s;
@@ -244,5 +283,5 @@ function jsonOut(obj) {
 
 /** 브라우저로 웹앱 URL을 직접 열었을 때 확인용 */
 function doGet() {
-  return jsonOut({ status: "I.D. Toys quote endpoint OK (v2)" });
+  return jsonOut({ status: "I.D. Toys quote endpoint OK (v3)" });
 }
