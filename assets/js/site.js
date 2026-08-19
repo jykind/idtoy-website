@@ -20,7 +20,10 @@
       rsvNamed: function (n, f) { return "‘" + n + "’(이)라는 이름의 " + f + " 친구를 정성껏 지어 보내드릴게요. "; },
       rsvPlain: function (f) { return f + " 친구를 정성껏 지어 보내드릴게요. "; },
       rsvTail: "하루 안에 제작 일정과 입금 안내를 문자로 드리겠습니다.",
-      qThanks: function (c, m) { return c + " " + m + "님, 문의 감사합니다. 영업일 기준 24시간 안에 한국어 담당자가 회신드리겠습니다. 시안이나 참고 자료가 있다면 회신 메일에 첨부해 주세요."; }
+      qThanks: function (c, m) { return c + " " + m + "님, 문의 감사합니다. 영업일 기준 24시간 안에 한국어 담당자가 회신드리겠습니다. 시안이나 참고 자료가 있다면 회신 메일에 첨부해 주세요."; },
+      sending: "전송 중…",
+      sendBtn: "견적 문의 보내기",
+      sendFail: "전송에 실패했어요. lifeyes2011@gmail.com 으로 직접 보내주세요."
     },
     en: {
       empty: "Give them a name",
@@ -31,7 +34,10 @@
       rsvNamed: function (n, f) { return "We'll lovingly craft your " + f + " named ‘" + n + "’. "; },
       rsvPlain: function (f) { return "We'll lovingly craft your " + f + ". "; },
       rsvTail: "We'll text the crafting schedule and payment details within a day.",
-      qThanks: function (c, m) { return "Thank you, " + m + " of " + c + ". A manager will reply within 24 business hours. If you have sketches or references, attach them to our reply email."; }
+      qThanks: function (c, m) { return "Thank you, " + m + " of " + c + ". A manager will reply within 24 business hours. If you have sketches or references, attach them to our reply email."; },
+      sending: "Sending…",
+      sendBtn: "Send Quote Request",
+      sendFail: "Sending failed. Please email us directly at lifeyes2011@gmail.com."
     },
     th: {
       empty: "ตั้งชื่อให้หน่อยนะ",
@@ -42,7 +48,10 @@
       rsvNamed: function (n, f) { return "เราจะตั้งใจผลิต" + f + "ชื่อ ‘" + n + "’ ให้อย่างดีค่ะ "; },
       rsvPlain: function (f) { return "เราจะตั้งใจผลิต" + f + "ให้อย่างดีค่ะ "; },
       rsvTail: "จะส่งตารางผลิตและวิธีชำระเงินให้ภายในหนึ่งวันค่ะ",
-      qThanks: function (c, m) { return "ขอบคุณค่ะ คุณ" + m + " จาก " + c + " ผู้ดูแลจะตอบกลับภายใน 24 ชั่วโมงทำการ ถ้ามีแบบหรือภาพอ้างอิง แนบมากับอีเมลตอบกลับได้เลยค่ะ"; }
+      qThanks: function (c, m) { return "ขอบคุณค่ะ คุณ" + m + " จาก " + c + " ผู้ดูแลจะตอบกลับภายใน 24 ชั่วโมงทำการ ถ้ามีแบบหรือภาพอ้างอิง แนบมากับอีเมลตอบกลับได้เลยค่ะ"; },
+      sending: "กำลังส่ง…",
+      sendBtn: "ส่งคำขอใบเสนอราคา",
+      sendFail: "ส่งไม่สำเร็จ กรุณาอีเมลตรงมาที่ lifeyes2011@gmail.com"
     }
   }[LANG];
   function trFriend(f) {
@@ -254,11 +263,46 @@
 
       var company = document.getElementById("qCompany").value.trim();
       var manager = document.getElementById("qManager").value.trim();
-      qDoneBody.textContent = MSG.qThanks(company, manager);
 
-      quoteForm.hidden = true;
-      qDone.hidden = false;
-      qDone.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "center" });
+      /* --- actually send via FormSubmit (no-signup relay to lifeyes2011@gmail.com) --- */
+      var submitBtn = quoteForm.querySelector(".form__submit");
+      submitBtn.disabled = true;
+      submitBtn.textContent = MSG.sending;
+
+      var payload = {
+        _subject: "[I.D. Toys] 견적 문의 — " + company,
+        _template: "table",
+        "회사명": company,
+        "담당자": manager,
+        "이메일": email.value.trim(),
+        "연락처": document.getElementById("qPhone").value.trim(),
+        "제작방식": document.getElementById("qType").value,
+        "예상수량": document.getElementById("qQty").value,
+        "희망납기": document.getElementById("qWhen").value,
+        "프로젝트설명": document.getElementById("qMsg").value.trim(),
+        "언어": LANG
+      };
+
+      fetch("https://formsubmit.co/ajax/lifeyes2011@gmail.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(payload)
+      }).then(function (res) {
+        if (!res.ok) throw new Error("send failed");
+        return res.json();
+      }).then(function (data) {
+        if (!data || String(data.success) !== "true") throw new Error(data && data.message ? data.message : "send failed");
+        qDoneBody.textContent = MSG.qThanks(company, manager);
+        quoteForm.hidden = true;
+        qDone.hidden = false;
+        qDone.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth", block: "center" });
+      }).catch(function () {
+        qError.hidden = false;
+        qError.textContent = MSG.sendFail;
+      }).finally(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = MSG.sendBtn;
+      });
     });
 
     quoteForm.addEventListener("input", function (e) {

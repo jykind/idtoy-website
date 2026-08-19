@@ -105,6 +105,10 @@
     "컨셉을 상품으로 키워내는 것": ["growing a concept into a product", "พัฒนาคอนเซปต์ให้เป็นสินค้า"],
     ", 두 가지 모두가 우리의 일입니다.": [" — both are what we do.", " — ทั้งสองอย่างคืองานของเรา"],
     "Google Maps에서 보기 ↗": ["View on Google Maps ↗", "ดูใน Google Maps ↗"],
+    "개인정보처리방침": ["Privacy Policy", "นโยบายความเป็นส่วนตัว"],
+    "상담 목적의": ["I agree to the use of my", "ยินยอมให้ใช้"],
+    "개인정보 수집·이용": ["personal information ", "ข้อมูลส่วนบุคคล"],
+    "에 동의합니다": ["for consultation purposes", "เพื่อการปรึกษา"],
 
     /* ===== quality ===== */
     "Quality — 품질과 안전": ["Quality — Quality & Safety", "Quality — คุณภาพและความปลอดภัย"],
