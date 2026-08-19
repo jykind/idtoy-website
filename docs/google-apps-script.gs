@@ -27,10 +27,9 @@ function doPost(e) {
         "제작방식\nรูปแบบการผลิต",
         "예상수량\nจำนวนโดยประมาณ",
         "희망납기\nกำหนดส่งที่ต้องการ",
-        "프로젝트 설명\nรายละเอียดโปรเจกต์",
-        "언어\nภาษา"
+        "프로젝트 설명\nรายละเอียดโปรเจกต์"
       ]);
-      sheet.getRange(1, 1, 1, 10).setFontWeight("bold").setBackground("#FFE9A8").setVerticalAlignment("middle");
+      sheet.getRange(1, 1, 1, 9).setFontWeight("bold").setBackground("#FFE9A8").setVerticalAlignment("middle");
       sheet.setFrozenRows(1);
     }
 
@@ -38,7 +37,7 @@ function doPost(e) {
     sheet.appendRow([
       new Date(),
       p.company || "", p.manager || "", p.email || "", p.phone || "",
-      p.type || "", p.qty || "", p.when || "", p.message || "", p.lang || ""
+      p.type || "", p.qty || "", p.when || "", p.message || ""
     ]);
 
     // 이메일 알림
