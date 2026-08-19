@@ -204,6 +204,7 @@
     "제작 방식": ["Production Type", "รูปแบบการผลิต"],
     "예상 수량": ["Estimated Quantity", "จำนวนโดยประมาณ"],
     "희망 납기": ["Target Delivery", "กำหนดส่งที่ต้องการ"],
+    "— 참고용이에요. 최종 납기는 샘플 승인 후 상의하여 확정합니다": ["— for reference only; the final delivery date is agreed together after sample approval", "— ใช้อ้างอิงเท่านั้น กำหนดส่งจริงจะตกลงร่วมกันหลังอนุมัติตัวอย่าง"],
     "프로젝트 설명": ["Project Details", "รายละเอียดโปรเจกต์"],
     "상담 목적의 개인정보 수집·이용에 동의합니다": ["I agree to the use of my information for consultation", "ยินยอมให้ใช้ข้อมูลเพื่อการปรึกษา"],
     "선택해 주세요": ["Please select", "กรุณาเลือก"],
