@@ -23,7 +23,7 @@
       qThanks: function (c, m) { return c + " " + m + "님, 문의 감사합니다. 영업일 기준 24시간 안에 한국어 담당자가 회신드리겠습니다. 시안이나 참고 자료가 있다면 회신 메일에 첨부해 주세요."; },
       sending: "전송 중…",
       sendBtn: "견적 문의 보내기",
-      sendFail: "전송에 실패했어요. lifeyes2011@gmail.com 으로 직접 보내주세요."
+      sendFail: "전송에 실패했어요. lifeyes1002@gmail.com 으로 직접 보내주세요."
     },
     en: {
       empty: "Give them a name",
@@ -37,7 +37,7 @@
       qThanks: function (c, m) { return "Thank you, " + m + " of " + c + ". A manager will reply within 24 business hours. If you have sketches or references, attach them to our reply email."; },
       sending: "Sending…",
       sendBtn: "Send Quote Request",
-      sendFail: "Sending failed. Please email us directly at lifeyes2011@gmail.com."
+      sendFail: "Sending failed. Please email us directly at lifeyes1002@gmail.com."
     },
     th: {
       empty: "ตั้งชื่อให้หน่อยนะ",
@@ -51,7 +51,7 @@
       qThanks: function (c, m) { return "ขอบคุณค่ะ คุณ" + m + " จาก " + c + " ผู้ดูแลจะตอบกลับภายใน 24 ชั่วโมงทำการ ถ้ามีแบบหรือภาพอ้างอิง แนบมากับอีเมลตอบกลับได้เลยค่ะ"; },
       sending: "กำลังส่ง…",
       sendBtn: "ส่งคำขอใบเสนอราคา",
-      sendFail: "ส่งไม่สำเร็จ กรุณาอีเมลตรงมาที่ lifeyes2011@gmail.com"
+      sendFail: "ส่งไม่สำเร็จ กรุณาอีเมลตรงมาที่ lifeyes1002@gmail.com"
     }
   }[LANG];
   function trFriend(f) {

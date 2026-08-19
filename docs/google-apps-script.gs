@@ -6,7 +6,7 @@
  */
 
 var SHEET_NAME = "견적문의";                 // 문의가 쌓일 시트 탭 이름
-var NOTIFY_EMAIL = "lifeyes2011@gmail.com";  // 알림 받을 이메일
+var NOTIFY_EMAIL = "lifeyes1002@gmail.com";  // 알림 받을 이메일
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
